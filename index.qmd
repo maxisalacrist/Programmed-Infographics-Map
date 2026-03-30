@@ -1,5 +1,13 @@
 ---
-title: "Evaluation" "Maximiliano Sala Crist"
+
+title: "Evaluación - Maximiliano Sala Crist"
+format:
+  html:
+    toc: true
+    theme: cosmo
+    code-fold: false
+    code-tools: true
+    embed-resources: true
 ---
 
 ```{r}
@@ -57,8 +65,8 @@ injuries_raw <- read_csv("data/montevideo-traffic-injuries-2022.csv")
 
 ```{r}
 
-glimpse(injuries)
-summary(injuries)
+glimpse(injuries_raw)
+summary(injuries_raw)
 ```
 
 ```{r}
