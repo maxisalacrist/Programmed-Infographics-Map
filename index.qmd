@@ -1,0 +1,68 @@
+---
+title: "Evaluation" "Maximiliano Sala Crist"
+---
+
+```{r}
+#| include: false
+rm(list = ls())
+```
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(sf)
+library(tmap)
+library(viridis)
+library(ggthemes)
+library(grid)
+
+# Load the shared course plotting and mapping style when available
+theme_loaded <- try(source("style/data-visualisation_theme.R"), silent = TRUE)
+
+if (inherits(theme_loaded, "try-error")) {
+  course_text_theme <- function() {
+    theme(
+      text = element_text(family = "sans"),
+      plot.title = element_text(size = 18, face = "bold"),
+      plot.subtitle = element_text(size = 13, margin = margin(b = 10)),
+      plot.caption = element_text(size = 10, colour = "grey30"),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+      legend.title = element_text(size = 11, face = "bold"),
+      legend.text = element_text(size = 10)
+    )
+  }
+
+  theme_map_course <- function(...) {
+    theme_tufte(...) +
+      course_text_theme() +
+      theme(
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = "right",
+        legend.key.height = unit(0.45, "cm")
+      )
+  }
+
+  scale_fill_course_seq_c <- function(...) {
+    scale_fill_viridis_c(...)
+  }
+}
+
+injuries_raw <- read_csv("data/montevideo-traffic-injuries-2022.csv")
+```
+
+```{r}
+
+glimpse(injuries)
+summary(injuries)
+```
+
+```{r}
+
+roads <- st_read("data/montevideo_roads.gpkg")
+injuries <- st_as_sf(injuries_raw, coords = c("X", "Y"), crs = 32721)
+```
